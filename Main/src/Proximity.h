@@ -27,8 +27,8 @@ class Proximity {
   }
   boolean isObstacle(){
     boolean found = isObject(leftTriggerPin,leftUltrasoundValue);
-    if(!found)found = isObject(centerTriggerPin,centerTriggerPin); 
-    if(!found)found = isObject(rightTriggerPin,rightTriggerPin); 
+    if(!found)found = isObject(centerTriggerPin,centerUltrasoundValue); 
+    if(!found)found = isObject(rightTriggerPin,rightUltrasoundValue); 
 
     return found;
   }
