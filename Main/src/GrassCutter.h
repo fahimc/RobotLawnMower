@@ -1,17 +1,14 @@
 class GrassCutter {
-  AF_DCMotor* Cutter;
+  int CutterPin;
 public:
   GrassCutter (int cutterPin){
-  Cutter = new AF_DCMotor(cutterPin);
+  CutterPin = cutterPin;
   }
   void init(){
-    Cutter->setSpeed(200);
-    Cutter->run(RELEASE);
+    pinMode(2,OUTPUT);
   }
   void start(){
-    Cutter->run(FORWARD);
-  }
-  void stop(){
-    Cutter->run(RELEASE);
+    digitalWrite(CutterPin,HIGH);
+    //delay(1000);
   }
 };

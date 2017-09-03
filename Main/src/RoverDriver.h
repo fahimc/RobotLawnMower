@@ -1,38 +1,58 @@
 class RoverDriver {
-   AF_DCMotor* LeftWheel;
-   AF_DCMotor* RightWheel;
+   AF_DCMotor* LeftBackWheel;
+   AF_DCMotor* RightBackWheel;
+   AF_DCMotor* RightFrontWheel;
+   AF_DCMotor* LeftFrontWheel;
+   int SPEED = 255;
+   int TURN_DELAY = 2000;
   public:
-  RoverDriver(int leftWheelPin,int rightWheelPin){
-    LeftWheel = new AF_DCMotor(leftWheelPin);
-    RightWheel = new AF_DCMotor(rightWheelPin);
+  RoverDriver(int leftBackWheelPin,int rightBackWheelPin,int leftFrontWheelPin,int rightFrontWheelPin){
+    LeftBackWheel = new AF_DCMotor(leftBackWheelPin);
+    RightBackWheel = new AF_DCMotor(rightBackWheelPin);
+
+    LeftFrontWheel = new AF_DCMotor(leftFrontWheelPin);
+    RightFrontWheel = new AF_DCMotor(rightFrontWheelPin);
   }
  void init(){
-    LeftWheel->setSpeed(200);
-    RightWheel->setSpeed(200);
+    LeftBackWheel->setSpeed(SPEED);
+    RightBackWheel->setSpeed(SPEED);
 
-    LeftWheel->run(RELEASE);
-    RightWheel->run(RELEASE);
+    LeftFrontWheel->setSpeed(SPEED);
+    RightFrontWheel->setSpeed(SPEED);
+
+    stop();
   }
   void forward(){
-    LeftWheel->run(FORWARD);
-    RightWheel->run(FORWARD);
+    LeftBackWheel->run(FORWARD);
+    RightBackWheel->run(FORWARD);
+    LeftFrontWheel->run(FORWARD);
+    RightFrontWheel->run(FORWARD);
   }
   void reverse(){
-    LeftWheel->run(BACKWARD);
-    RightWheel->run(BACKWARD);
+    LeftBackWheel->run(BACKWARD);
+    RightBackWheel->run(BACKWARD);
+    LeftFrontWheel->run(BACKWARD);
+    RightFrontWheel->run(BACKWARD);
   }
   void turnLeft(){
-    LeftWheel->run(BACKWARD);
-    RightWheel->run(FORWARD);
-    delay(500);
+    LeftBackWheel->run(BACKWARD);
+    RightBackWheel->run(FORWARD);
+    LeftFrontWheel->run(BACKWARD);
+    RightFrontWheel->run(FORWARD);
+    delay(TURN_DELAY);
   }
   void turnRight(){
-    LeftWheel->run(FORWARD);
-    RightWheel->run(BACKWARD);
-    delay(500);
+    LeftBackWheel->run(RELEASE);
+    LeftFrontWheel->run(RELEASE);
+    
+    RightBackWheel->run(BACKWARD);
+    RightFrontWheel->run(BACKWARD);
+    delay(TURN_DELAY);
   }
   void stop(){
-    LeftWheel->run(RELEASE);
-    RightWheel->run(RELEASE);
+    LeftBackWheel->run(RELEASE);
+    RightBackWheel->run(RELEASE);
+    LeftFrontWheel->run(RELEASE);
+    RightFrontWheel->run(RELEASE);
   }
 };

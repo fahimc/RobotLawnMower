@@ -1,19 +1,38 @@
 class Proximity {
-  int OBJECT_DISTANCE = 15;
+  int OBJECT_DISTANCE = 30;
   unsigned long echoPin = 5;
-  int triggerPin = 4; 
-  unsigned long ultrasoundValue = 0;
+  int leftTriggerPin = 4; 
+  unsigned long leftUltrasoundValue = 0;
+  int centerTriggerPin = 4; 
+  unsigned long centerUltrasoundValue = 0;
+  int rightTriggerPin = 4; 
+  unsigned long rightUltrasoundValue = 0;
   public:
-  Proximity(long _triggerPin, long _echoPin){
-    triggerPin = _triggerPin;
-    echoPin = _echoPin;
+  Proximity(long _leftTriggerPin, long _leftUltrasoundValue, long _centerTriggerPin, long _centerUltrasoundValue,long _rightTriggerPin, long _rightUltrasoundValue){
+    leftTriggerPin = _leftTriggerPin;
+    leftUltrasoundValue = _leftUltrasoundValue;
+    centerTriggerPin = _centerTriggerPin;
+    centerUltrasoundValue = _centerUltrasoundValue;
+    rightTriggerPin = _rightTriggerPin;
+    rightUltrasoundValue = _rightUltrasoundValue;
   }
   void init(){
-    Serial.begin(9600);
-    pinMode(triggerPin,OUTPUT);
-    pinMode(echoPin,INPUT);
+    setPinMode(leftTriggerPin,leftUltrasoundValue);
+    setPinMode(centerTriggerPin,centerUltrasoundValue);
+    setPinMode(rightTriggerPin,rightUltrasoundValue);
   }
-  boolean isObject(){
+  void setPinMode(long triggerPin,long ultraSound){
+    pinMode(triggerPin,OUTPUT);
+    pinMode(ultraSound,INPUT);
+  }
+  boolean isObstacle(){
+    boolean found = isObject(leftTriggerPin,leftUltrasoundValue);
+    if(!found)found = isObject(centerTriggerPin,centerTriggerPin); 
+    if(!found)found = isObject(rightTriggerPin,rightTriggerPin); 
+
+    return found;
+  }
+  boolean isObject(long triggerPin,long echoPin){
     digitalWrite(triggerPin,HIGH);
     delayMicroseconds(10);
     digitalWrite(triggerPin,LOW);
